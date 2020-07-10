@@ -1,0 +1,85 @@
+version: "3.8"
+
+networks:
+  node:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.1.0.0/16
+services:
+
+  cluster_init:
+    image: redis:6
+    depends_on:
+      - redis01
+      - redis02
+      - redis03
+      - redis04
+      - redis05
+      - redis06
+    networks:
+      node:
+        ipv4_address: 10.1.0.2
+
+  redis01:
+    build: ./
+    ports:
+      - "7001:7001"
+    environment:
+      EXPOSE_PORT: 7001
+
+    networks:
+      node:
+        ipv4_address: 10.1.0.11
+
+
+  redis02:
+    build: ./
+    ports:
+      - "7002:7002"
+    environment:
+      EXPOSE_PORT: 7002
+    networks:
+      node:
+        ipv4_address: 10.1.0.12
+
+  redis03:
+    build: ./
+    ports:
+      - "7003:7003"
+    environment:
+      EXPOSE_PORT: 7003
+    networks:
+      node:
+        ipv4_address: 10.1.0.13
+
+  redis04:
+    build: ./
+    ports:
+      - "7004:7004"
+    environment:
+      EXPOSE_PORT: 7004
+    networks:
+      node:
+        ipv4_address: 10.1.0.14
+
+
+  redis05:
+    build: ./
+    ports:
+      - "7005:7005"
+    environment:
+      EXPOSE_PORT: 7005
+    networks:
+      node:
+        ipv4_address: 10.1.0.15
+
+  redis06:
+    build: ./
+    ports:
+      - "7006:7006"
+    environment:
+      EXPOSE_PORT: 7006
+    networks:
+      node:
+        ipv4_address: 10.1.0.16

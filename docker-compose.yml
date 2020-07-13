@@ -8,6 +8,21 @@ networks:
         - subnet: 10.1.0.0/16
 services:
 
+  benchmarker:
+    image: redislabs/memtier_benchmark:latest
+    depends_on:
+      - redis01
+      - redis02
+      - redis03
+      - redis04
+      - redis05
+      - redis06
+    networks:
+      node:
+        ipv4_address: 10.1.0.30
+    command: sleep infinity
+    entrypoint: ""
+
   cluster_init:
     image: redis:6
     depends_on:
@@ -20,6 +35,7 @@ services:
     networks:
       node:
         ipv4_address: 10.1.0.2
+    command: redis-cli --cluster create 10.1.0.11:7001 10.1.0.12:7002 10.1.0.13:7003 10.1.0.14:7004 10.1.0.15:7005 10.1.0.16:7006
 
   redis01:
     build: ./
@@ -31,6 +47,11 @@ services:
     networks:
       node:
         ipv4_address: 10.1.0.11
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
 
 
   redis02:
@@ -42,6 +63,11 @@ services:
     networks:
       node:
         ipv4_address: 10.1.0.12
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
 
   redis03:
     build: ./
@@ -52,6 +78,11 @@ services:
     networks:
       node:
         ipv4_address: 10.1.0.13
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
 
   redis04:
     build: ./
@@ -62,7 +93,11 @@ services:
     networks:
       node:
         ipv4_address: 10.1.0.14
-
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
 
   redis05:
     build: ./
@@ -73,6 +108,11 @@ services:
     networks:
       node:
         ipv4_address: 10.1.0.15
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
 
   redis06:
     build: ./
@@ -83,3 +123,8 @@ services:
     networks:
       node:
         ipv4_address: 10.1.0.16
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
